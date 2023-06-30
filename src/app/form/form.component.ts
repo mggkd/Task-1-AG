@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../shared/model/product.model';
 import { ProductService } from '../shared/services/product.service';
 
@@ -9,23 +9,27 @@ import { ProductService } from '../shared/services/product.service';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
-
-  dataForm: FormGroup | any;
-  imageError: string | any;
+  dataForm!: FormGroup;
+  imageError!: string;
 
   constructor(
+    private formBuilder: FormBuilder,
     private productService: ProductService
   ) { }
 
   ngOnInit(): void {
-    this.dataForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      price: new FormControl('', Validators.required),
-      image: new FormControl('', Validators.required),
-    })
+    this.buildForm();
   }
 
-  onSubmit() {
+  buildForm(): void {
+    this.dataForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      price: ['', Validators.required],
+      image: ['', Validators.required]
+    });
+  }
+
+  onSubmit(): void {
     if (this.dataForm.invalid) {
       return;
     }
@@ -36,12 +40,20 @@ export class FormComponent implements OnInit {
     };
     this.productService.addProduct(product);
 
-    console.log(this.productService.getListForConsole())
+    console.log(this.productService.getListForConsole());
 
     this.dataForm.reset();
+    this.resetFileInput();
   }
 
-  handleImageUpload(event: Event) {
+  resetFileInput(): void {
+    const fileInput = document.getElementById('image') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
+  handleImageUpload(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement && inputElement.files && inputElement.files.length > 0) {
       const file = inputElement.files[0];
@@ -53,12 +65,10 @@ export class FormComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = (e) => {
           const imageDataURL = reader.result as string;
-          this.dataForm.patchValue({ image: imageDataURL }); // Set the data URL as the value of the image form control
+          this.dataForm.patchValue({ image: imageDataURL });
         };
         reader.readAsDataURL(file);
       }
     }
   }
-
-
 }

@@ -1,34 +1,30 @@
-<div class="form-container myForm py-5 px-5 mt-5 text-white">
+<div class="form-container col-6 myForm py-5 px-5 mt-5 text-white">
     <h2>Add Product</h2>
     <form (ngSubmit)="onSubmit()" [formGroup]="dataForm" novalidate>
         <div class="form-group">
             <label for="name">Product Name</label>
             <input type="text" id="name" class="form-control" formControlName="name" required />
-            <div *ngIf="
-            dataForm.get('name').invalid &&
-            (dataForm.get('name').dirty || dataForm.get('name').touched)
-          " class="text-danger">
-                Product Name is required.
+            <div *ngIf="dataForm.get('name')?.invalid && (dataForm.get('name')?.dirty || dataForm.get('name')?.touched)"
+                class="text-white">
+                *Product Name is required.
             </div>
         </div>
         <div class="form-group">
             <label for="price">Price</label>
             <input type="number" id="price" class="form-control" formControlName="price" required />
-            <div *ngIf="
-            dataForm.get('price').invalid &&
-            (dataForm.get('price').dirty || dataForm.get('price').touched)
-          " class="text-danger">
-                Price is required.
+            <div *ngIf="dataForm.get('price')?.invalid && (dataForm.get('price')?.dirty || dataForm.get('price')?.touched)"
+                class="text-white">
+                *Price is required.
             </div>
         </div>
         <div class="form-group">
             <label for="image">Image</label>
             <input type="file" id="image" class="form-control-file" (change)="handleImageUpload($event)" required />
-            <div *ngIf="dataForm.get('image').invalid && (dataForm.get('image').dirty || dataForm.get('image').touched)"
-                class="text-danger">
+            <div *ngIf="dataForm.get('image')?.invalid && (dataForm.get('image')?.dirty || dataForm.get('image')?.touched)"
+                class="text-white">
                 *Image is required.
             </div>
-            <div *ngIf="imageError" class="text-dark text-info"> *
+            <div *ngIf="imageError" class="text-dark text-info">
                 {{ imageError }}
             </div>
         </div>
@@ -37,3 +33,4 @@
         </div>
     </form>
 </div>
+?

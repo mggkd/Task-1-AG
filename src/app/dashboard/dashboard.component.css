@@ -1,0 +1,30 @@
+.cart-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .cart-header i {
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  
+  .cart-table {
+    width: 100%;
+  }
+  
+  .empty-cart {
+    padding: 40px 0;
+    font-size: 18px;
+    color: #888;
+  }
+  
+  .empty-cart i {
+    margin-bottom: 10px;
+    color: #aaa;
+  }
+  
+  .font-weight-bold {
+    font-weight: bold;
+  }
+  
